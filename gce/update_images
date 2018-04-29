@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+# cluster name
+CLUSTER_NAME='pisces'
+
+# move into gce directory
+GCE_DIR='/Users/tjc/research/pangeo/gce'
+cd $GCE_DIR
+
+# check git status
+git diff --exit-code > /dev/null
+
+if [ $? -eq 0 ]; then
+  set -e
+
+  # get commit hash for tag
+  TAG=`git rev-parse --short HEAD`
+
+  # build worker
+  cd "$GCE_DIR/worker"
+  NAME="tjcrone/$CLUSTER_NAME-worker"
+  docker build -t "$NAME:$TAG" .
+
+  # push worker
+  docker push "$NAME:$TAG"
+
+  # update worker-template tag
+  cd "$GCE_DIR/notebook"
+  sed -i '' "s/    image.*/    image: tjcrone\/$CLUSTER_NAME-worker:${TAG}/" worker-template.yaml
+
+  # build notebook
+  NAME="tjcrone/$CLUSTER_NAME-notebook"
+  docker build -t "$NAME:$TAG" .
+
+  # push notebook
+  docker push "$NAME:$TAG"
+
+  # update jupyter-config
+  cd $GCE_DIR
+  sed -i '' "s/    tag.*/    tag: ${TAG}/" jupyter-config_gcp.yaml
+
+else
+    printf "\nPlease stash or commit your changes before updating the Pangeo images with a commit tag.\n\n"
+fi
