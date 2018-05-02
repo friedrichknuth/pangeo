@@ -8,22 +8,22 @@ spec:
       - '2'
       - --no-bokeh
       - --memory-limit
-      - 6GB
+      - 4GB
       - --death-timeout
       - '60'
-    image: fknuth/pangeo-worker
+    image: fknuth/pangeo-worker:582af66
     name: dask-worker
     securityContext:
       capabilities:
         add: [SYS_ADMIN]
       privileged: true
-    env:
-      - name: GCSFUSE_BUCKET
-        value: pangeo-data
+    # env:
+    #   - name: GCSFUSE_BUCKET
+    #     value: pangeo-data
     resources:
       limits:
-        cpu: "1.75"
-        memory: 6G
+        cpu: "1"
+        memory: 4G
       requests:
-        cpu: "1.75"
-        memory: 6G
+        cpu: "0.9"
+        memory: 4G

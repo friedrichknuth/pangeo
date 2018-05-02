@@ -1,26 +1,19 @@
 singleuser:
   image:
     name: fknuth/pangeo-notebook
-    tag: f887029
+    tag: f9080c2
   cmd: ['start-singleuser.sh']
-  extraEnv:
-    EXTRA_PIP_PACKAGES: >-
-    GCSFUSE_BUCKET: pangeo-data
-    PROJECT_NOTEBOOKS: https://github.com/ooi-data-review/ooi_datateam_notebooks.git
-  storage:
-    extraVolumes:
-      - name: fuse
-        hostPath:
-          path: /dev/fuse
-    extraVolumeMounts:
-      - name: fuse
-        mountPath: /dev/fuse
   cpu:
-    limit: 2
-    guarantee: 1
+    limit: 1.8
+    guarantee: 0.9
   memory:
-    limit: 4G
-    guarantee: 1G
+    limit: 8G
+    guarantee: 4G
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["/bin/bash", "-c", "if [-f $HOME/.copied]; then git pull; else git clone https://github.com/ooi-data-review/ooi_datateam_notebooks.git | touch $HOME/.copied; fi"]
+  
 
 hub:
   extraConfig: |
@@ -42,3 +35,4 @@ cull:
   users: false
   timeout: 1200
   every: 120
+

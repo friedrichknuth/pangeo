@@ -22,13 +22,16 @@ singleuser:
     guarantee: 2G
   cloudMetadata:
     enabled: true
-
+   
 rbac:
   enabled: false
 
 hub:
   extraConfig: |
     c.KubeSpawner.singleuser_service_account = 'default'
+    # from oauthenticator.github import GitHubOAuthenticator
+    # c.JupyterHub.authenticator_class = GitHubOAuthenticator
+    # c.JupyterHub.authenticator_class = 'dummyauthenticator.DummyAuthenticator'
     c.Spawner.default_url = '/lab'
     from kubernetes import client
     def modify_pod_hook(spawner, pod):
