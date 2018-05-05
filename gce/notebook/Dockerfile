@@ -59,9 +59,9 @@ COPY prepare.sh /usr/bin/prepare.sh
 RUN chmod +x /usr/bin/prepare.sh
 # RUN mkdir /home/$NB_USER/examples && chown -R $NB_USER /home/$NB_USER/examples
 # RUN mkdir /pre-home && mkdir /pre-home/examples && chown -R $NB_USER /pre-home
-RUN mkdir /pre-home && mkdir && chown -R $NB_USER /pre-home
+RUN mkdir /pre-home && chown -R $NB_USER /pre-home
 
-COPY worker-template.yaml /pre-home
+# COPY worker-template.yaml /pre-home
 # COPY examples/ /pre-home/examples/
 ENV DASK_TICK_MAXIMUM_DELAY=5s
 ENV DASKERNETES_DIAGNOSTICS_LINK {JUPYTERHUB_SERVICE_PREFIX}proxy/{port}/status

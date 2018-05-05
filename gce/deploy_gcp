@@ -57,7 +57,7 @@ printf " done.\n\n"
 
 # install jupyterhub on the cluster
 echo "Installing jupyterhub."
-helm install jupyterhub/jupyterhub --version=v0.7-bb12426 --name=jupyter --namespace=jupyter -f secret-config_gcp.yaml -f jupyter-config_gcp.yaml
+helm install jupyterhub/jupyterhub --version=v0.7-d617e0a --name=jupyter --namespace=jupyter -f secret-config_gcp.yaml -f jupyter-config_gcp.yaml
 
 # use this to redeploy the jupyterhub
 # helm upgrade --force --recreate-pods --timeout=600 jupyter jupyterhub/jupyterhub --version=v0.7-bb12426 -f secret-config_gcp.yaml -f jupyter-config_gcp.yaml

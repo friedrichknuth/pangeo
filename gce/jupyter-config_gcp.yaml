@@ -1,7 +1,7 @@
 singleuser:
   image:
     name: fknuth/pangeo-notebook
-    tag: f9080c2
+    tag: 34f709c
   cmd: ['start-singleuser.sh']
   cpu:
     limit: 1.8
